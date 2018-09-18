@@ -17,15 +17,36 @@ def move_a_to_b():
         ax -=  delta_x
         ay -=  delta_y
         clear_canvas()
-        character.clip_draw(frame*100,0,100,100,ax,ay)
+        if delta_x > 0:
+            character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+        else:
+            character.clip_draw(frame * 100, 100, 100, 100, ax, ay)
+
         update_canvas()
         frame=(frame+1)%8
         delay(0.01)
 
-    pass
-
 def move_b_to_c():
-    pass
+    ax, ay, bx, by = 132, 243, 535, 470
+    frame = 0
+    character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+    character.clip_draw(frame * 100, 0, 100, 100, bx, by)
+    delta_x = (ax - bx) // 10
+    delta_y = (ay - by) // 10
+    while (ax <= bx):
+        ax -= delta_x
+        ay -= delta_y
+        clear_canvas()
+        if delta_x > 0:
+            character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+        else:
+            character.clip_draw(frame * 100, 100, 100, 100, ax, ay)
+
+
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.01)
+    
 
 def move_c_to_d():
     pass
@@ -48,7 +69,7 @@ def move_h_to_i():
 def move_i_to_j():
     pass
 while True:
-    move_a_to_b()
+    #move_a_to_b()
     move_b_to_c()
     move_c_to_d()
     move_e_to_f()
