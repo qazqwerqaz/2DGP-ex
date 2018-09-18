@@ -64,9 +64,26 @@ def move_c_to_d():
         update_canvas()
         frame = (frame + 1) % 8
         delay(0.01)
-    pass
+
 
 def move_d_to_e():
+    ax, ay, bx, by = 477, 203, 715, 136
+    frame = 0
+    character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+    character.clip_draw(frame * 100, 0, 100, 100, bx, by)
+    delta_x = (ax - bx) // 10
+    delta_y = (ay - by) // 10
+    while (ax <= bx):
+        ax -= delta_x
+        ay -= delta_y
+        clear_canvas()
+        if delta_x > 0:
+            character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+        else:
+            character.clip_draw(frame * 100, 100, 100, 100, ax, ay)
+        update_canvas()
+        frame = (frame + 1) % 8
+        delay(0.01)
     pass
 
 def move_e_to_f():
@@ -87,6 +104,7 @@ while True:
     move_a_to_b()
     move_b_to_c()
     move_c_to_d()
+    move_d_to_e()
     move_e_to_f()
     move_f_to_g()
     move_g_to_h()
