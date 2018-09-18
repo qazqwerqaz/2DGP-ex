@@ -3,10 +3,25 @@ from pico2d import *
 open_canvas()
 
 grass = load_image('grass.png')
-character = load_image('character.png')
+character = load_image('animation_sheet.png')
 
 # fill here
 def move_a_to_b():
+    ax, ay, bx, by=203, 535, 132, 243
+    frame=0
+    character.clip_draw(frame * 100, 0, 100, 100, ax, ay)
+    character.clip_draw(frame * 100, 0, 100, 100, bx, by)
+    delta_x = (ax - bx)//10
+    delta_y = (ay-by)//10
+    while(ax >= bx):
+        ax -=  delta_x
+        ay -=  delta_y
+        clear_canvas()
+        character.clip_draw(frame*100,0,100,100,ax,ay)
+        update_canvas()
+        frame=(frame+1)%8
+        delay(0.01)
+
     pass
 
 def move_b_to_c():
