@@ -17,10 +17,12 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x + 17, KPU_HEIGHT - 1 - event.y - 20
         elif event.type == SDL_MOUSEBUTTONDOWN:
+            dir_x=0
+            dir_y=0
             stop_mouse_x = event.x
             stop_mouse_y = KPU_HEIGHT - 1 - event.y
-            dir_x = (float)(event.x-x)//10
-            dir_y = (float)(KPU_HEIGHT - 1 - event.y-y)//10
+            dir_x = (float)(event.x - x)//20
+            dir_y = (float)(KPU_HEIGHT - 1 - event.y - y)//20
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
     pass
@@ -44,8 +46,14 @@ while running:
     clear_canvas()
     kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
     hand_arrow.draw(mouse_x, mouse_y)
+    if dir_x == 0:
+        character.clip_draw(frame * 100, 100 * 3, 100, 100, x, y)
+    elif dir_x < 0:
+        character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
+    elif dir_x > 0:
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
 
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+
     update_canvas()
     frame = (frame + 1) % 8
 
