@@ -1,5 +1,5 @@
 from pico2d import *
-
+import math
 KPU_WIDTH, KPU_HEIGHT = 1280, 1024
 
 
@@ -17,8 +17,8 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             mouse_x, mouse_y = event.x + 17, KPU_HEIGHT - 1 - event.y - 20
         elif event.type == SDL_MOUSEBUTTONDOWN:
-            dir_x=0
-            dir_y=0
+            dir_x = 0
+            dir_y = 0
             stop_mouse_x = event.x
             stop_mouse_y = KPU_HEIGHT - 1 - event.y
             dir_x = (float)(event.x - x)//20
@@ -60,7 +60,7 @@ while running:
     x += dir_x
     y += dir_y
 
-    if  10 >= stop_mouse_x - x:
+    if 10 >= math.fabs(stop_mouse_x - x):
         dir_x = 0
         dir_y = 0
         x = stop_mouse_x
