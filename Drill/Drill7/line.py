@@ -38,6 +38,7 @@ character = load_image('animation_sheet.png')
 
 frame = 0
 
+
 x = 0
 y = 0
 i = 0
