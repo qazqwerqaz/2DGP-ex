@@ -12,11 +12,13 @@ def draw_line(p1, p2):
 
     global x
     global y
-    for i in range(0, 100+1, 1):
-        t = i / 100
-        x = (1-t)*p1[0]+t*p2[0]
-        y = (1-t)*p1[1]+t*p2[1]
+    global i
 
+    t = i / 100
+    x = (1-t)*p1[0]+t*p2[0]
+    y = (1-t)*p1[1]+t*p2[1]
+
+    i = i+1
 
 
     #draw_point(p2)
@@ -26,7 +28,7 @@ def draw_line(p1, p2):
 
 size = 10
 
-points = [(random.randint(0, 800), random.randint(0, 800)) for i in range(size)]
+points = [(random.randint(400, 800), random.randint(400, 800)) for i in range(size)]
 
 n = 1
 # fill here
@@ -38,6 +40,7 @@ frame = 0
 
 x = 0
 y = 0
+i = 0
 while True:
     clear_canvas()
     kpu_ground.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
@@ -45,7 +48,9 @@ while True:
 
     character.clip_draw(frame * 100, 100 * 3, 100, 100, x, y)
     frame = (frame + 1) % 8
-    n = (n+1) % size
+    if i == 100:
+        n = (n+1) % size
+        i=0
 
     update_canvas()
 
