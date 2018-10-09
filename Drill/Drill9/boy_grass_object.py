@@ -29,7 +29,7 @@ class Grass:
 class ball:
 
     def __init__(self):
-        self.x, self.y = random.randint(0, 800) , 0
+        self.x, self.y = random.randint(0, 800) , 800
         a = random.randint(0, 1)
         if a == 1:
             self.image = load_image('ball21x21.png')
@@ -38,7 +38,7 @@ class ball:
 
 
     def update(self):
-        self.y += 5
+        self.y -= 1
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -72,13 +72,13 @@ while running:
         boy.update()
 
     for ball in ball_:
-        ball_.update()
+        ball.update()
 
     clear_canvas()
     grass.draw()
 
     for ball in ball_:
-        ball_.update()
+        ball.draw()
     for boy in boy1:
         boy.draw()
     update_canvas()
