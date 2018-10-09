@@ -44,6 +44,7 @@ class ball:
         if self.y <= 75:
             self.y += self.speed
 
+
     def draw(self):
         self.image.draw(self.x, self.y)
     pass
