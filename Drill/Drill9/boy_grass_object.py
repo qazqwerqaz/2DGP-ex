@@ -7,10 +7,11 @@ class boy:
         self.x, self.y = 100, 90
         self.flame = 0
         self.image = load_image('animation_sheet.png')
+        self.rand_speed = random.randint(1, 5)
 
     def update(self):
         self.flame = (self.flame+1)%8
-        self.x += 5
+        self.x += self.rand_speed
 
     def draw(self):
         self.image.clip_draw(self.flame*100, 100, 100, 100, self.x, self.y)
@@ -29,8 +30,9 @@ class Grass:
 class ball:
 
     def __init__(self):
-        self.x, self.y = random.randint(0, 800) , 800
+        self.x, self.y = random.randint(0, 800) , 500
         a = random.randint(0, 1)
+        self.speed = random.randint(1,5)
         if a == 1:
             self.image = load_image('ball21x21.png')
         elif a == 0:
@@ -38,7 +40,9 @@ class ball:
 
 
     def update(self):
-        self.y -= 1
+        self.y -= self.speed
+        if self.y <= 90:
+            self.y += self.speed
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -57,9 +61,9 @@ def handle_events():
 # initialization code
 open_canvas()
 
-boy1 = [boy()]*20
+boy1 = [boy() for i in range(11)]
 grass = Grass()
-ball_ = [ball()]*20
+ball_ = [ball() for i in range(20)]
 running = True
 
 # game main loop code
