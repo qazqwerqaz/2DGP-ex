@@ -30,7 +30,7 @@ class Grass:
 class ball:
 
     def __init__(self):
-        self.x, self.y = random.randint(0, 800) , 500
+        self.x, self.y = random.randint(0, 800) , 599
         a = random.randint(0, 1)
         self.speed = random.randint(1,5)
         if a == 1:
@@ -41,7 +41,7 @@ class ball:
 
     def update(self):
         self.y -= self.speed
-        if self.y <= 90:
+        if self.y <= 75:
             self.y += self.speed
 
     def draw(self):
