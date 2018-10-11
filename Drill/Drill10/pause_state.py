@@ -4,7 +4,7 @@ import title_state
 import main_state
 name = "PauseState"
 image = None
-logo_time = 0.0
+logo_time = 10
 
 
 def enter():
@@ -21,13 +21,8 @@ def exit():
 
 def update():
     global logo_time
-    if(logo_time > 1.0):
-        logo_time = 0
-
-        #game_framework.change_state(title_state)
-    delay(0.01)
-    logo_time += 0.01
-
+    delay(0.1)
+    logo_time += 1
     pass
 
 
@@ -35,7 +30,14 @@ def draw():
     global image
     clear_canvas()
     main_state.draw()
-    image.draw(400, 300)
+    global logo_time
+
+    if (logo_time >= 20):
+        logo_time = 0
+    elif(logo_time >= 10):
+        image.draw(400, 300)
+
+
     update_canvas()
     pass
 
