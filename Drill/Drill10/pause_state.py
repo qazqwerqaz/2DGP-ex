@@ -29,15 +29,14 @@ def update():
 def draw():
     global image
     clear_canvas()
-    main_state.draw()
+    #main_state.draw()
     global logo_time
 
     if (logo_time >= 20):
         logo_time = 0
-    elif(logo_time >= 10):
-        image.draw(400, 300)
 
 
+    image.draw(400, 300)
     update_canvas()
     pass
 
