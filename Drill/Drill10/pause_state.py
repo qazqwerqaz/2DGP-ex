@@ -2,14 +2,14 @@ import game_framework
 from pico2d import *
 import title_state
 
-name = "StartState"
+name = "PauseState"
 image = None
 logo_time = 0.0
 
 
 def enter():
     global image
-    image = load_image('kpu_credit.png')
+    image = load_image('pause.png')
     pass
 
 
@@ -23,8 +23,8 @@ def update():
     global logo_time
     if(logo_time > 1.0):
         logo_time = 0
-        #game_framework.quit()
-        game_framework.change_state(title_state)
+
+        #game_framework.change_state(title_state)
     delay(0.01)
     logo_time += 0.01
     pass
@@ -42,6 +42,11 @@ def draw():
 
 def handle_events():
     events = get_events()
+    for event in events:
+        if event.type == SDLK_p:
+            game_framework.pop_state()
+
+
     pass
 
 
