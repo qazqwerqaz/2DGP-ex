@@ -20,18 +20,20 @@ Degree_TIME_PER_ACTION = 0.01
 Degree_ACTION_PER_TIME = 1.0 / Degree_TIME_PER_ACTION
 Degree_PER_ACTION = 3.14
 
-Deg_TIME_PER_ACTION = 0.5
-Deg_ACTION_PER_TIME = 2.0 / Deg_TIME_PER_ACTION
-Deg_PER_ACTION = 3.14 * 2
+Deg_TIME_PER_ACTION = 0.1
+Deg_ACTION_PER_TIME = 720 / Deg_TIME_PER_ACTION
+Deg_PER_ACTION = 720
+
 class Ghost:
 
     def __init__(self, x = 400, y = 300, velocity = 1):
         self.image = load_image('animation_sheet.png')
         self.x, self.y, self.velocity = x, y, velocity
-        self.Bx, self.By = self.x, self.y
+        self.Bx, self.By = self.x, self.y + PIXEL_PER_METER*3
         self.frame = 0
         self.image.opacify(random.randint(1, 10)/10)
         self.timer = get_time()
+        self.degree = 0
 
     def draw(self):
         if get_time() - self.timer <= 2:
@@ -44,8 +46,9 @@ class Ghost:
         if get_time() - self.timer <= 2:
             pass
         else:
-            self.x = self.Bx + 10*math.cos(Deg_PER_ACTION * Deg_ACTION_PER_TIME * game_framework.frame_time)
-            self.y = self.By + 10*math.sin(Deg_PER_ACTION * Deg_ACTION_PER_TIME * game_framework.frame_time)
+            self.degree += 720 * game_framework.frame_time / 1.0
+            self.x = self.Bx + PIXEL_PER_METER*3*math.cos(self.degree * 3.141592 / 180)
+            self.y = self.By + PIXEL_PER_METER*3*math.sin(self.degree * 3.141592 / 180)
 
         if self.x < 25 or self.x > 1600 - 25:
             game_world.remove_object(self)
