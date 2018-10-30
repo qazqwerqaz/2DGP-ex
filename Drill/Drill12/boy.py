@@ -1,23 +1,24 @@
 import game_framework
 from pico2d import *
 from ball import Ball
+from Ghost import Ghost
 
 import game_world
 
 # Boy Run Speed
+
 # fill expressions correctly
-PIXEL_PER_METER = 0
-RUN_SPEED_KMPH = 0
-RUN_SPEED_MPM = 0
-RUN_SPEED_MPS = 0
-RUN_SPEED_PPS = 0
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 20.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
 # Boy Action Speed
 # fill expressions correctly
-TIME_PER_ACTION = 0
-ACTION_PER_TIME = 0
-FRAMES_PER_ACTION = 0
-
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
 
 
 # Boy Event
@@ -46,7 +47,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+        boy.timer = get_time()
 
     @staticmethod
     def exit(boy, event):
@@ -57,8 +58,8 @@ class IdleState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.timer -= 1
-        if boy.timer == 0:
+
+        if get_time() - boy.timer >= 1:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -74,6 +75,16 @@ class RunState:
     @staticmethod
     def enter(boy, event):
         # fill here
+        if event == RIGHT_DOWN:
+            boy.velocity += RUN_SPEED_PPS
+        elif event == LEFT_DOWN:
+            boy.velocity -= RUN_SPEED_PPS
+        elif event == RIGHT_UP:
+            boy.velocity -= RUN_SPEED_PPS
+        elif event == LEFT_UP:
+            boy.velocity += RUN_SPEED_PPS
+        boy.dir = clamp(-1, boy.velocity, 1)
+
         pass
 
     @staticmethod
@@ -83,8 +94,9 @@ class RunState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + FRAMES_PER_ACTION *  ACTION_PER_TIME * game_framework.frame_time) % 8
         # fill here
+        boy.x += boy.velocity * game_framework.frame_time
         boy.x = clamp(25, boy.x, 1600 - 25)
 
     @staticmethod
@@ -95,19 +107,27 @@ class RunState:
             boy.image.clip_draw(int(boy.frame) * 100, 0, 100, 100, boy.x, boy.y)
 
 
+ghost = None
+
+
 class SleepState:
 
     @staticmethod
     def enter(boy, event):
         boy.frame = 0
+        boy.ghost_mode()
+
 
     @staticmethod
     def exit(boy, event):
+        global ghost
+        game_world.remove_object(ghost)
         pass
 
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+
 
     @staticmethod
     def draw(boy):
@@ -134,6 +154,7 @@ class Boy:
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('animation_sheet.png')
         # fill here
+        self.font = load_font('ENCR10B.TTF', 16)
         self.dir = 1
         self.velocity = 0
         self.frame = 0
@@ -146,6 +167,11 @@ class Boy:
         ball = Ball(self.x, self.y, self.dir*3)
         game_world.add_object(ball, 1)
 
+    def ghost_mode(self):
+        global ghost
+        ghost = Ghost(self.x, self.y)
+        game_world.add_object(ghost, 1)
+        pass
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -161,6 +187,7 @@ class Boy:
     def draw(self):
         self.cur_state.draw(self)
         # fill here
+        self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
