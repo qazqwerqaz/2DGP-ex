@@ -47,7 +47,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = get_time()
+
 
     @staticmethod
     def exit(boy, event):
@@ -59,7 +59,7 @@ class IdleState:
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
-        if get_time() - boy.timer >= 1:
+        if int(get_time()) % 11 == 10:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -161,6 +161,7 @@ class Boy:
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+        get_time()
 
 
     def fire_ball(self):
