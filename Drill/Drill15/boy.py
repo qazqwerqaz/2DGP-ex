@@ -77,6 +77,7 @@ class WalkingState:
         if 5 * (boy.x - 18) + 64 <= boy.y or -90 / 22 * (boy.x - 1750) + 430 <= boy.y :
             boy.x -= boy.x_velocity * game_framework.frame_time
 
+
     @staticmethod
     def draw(boy):
         # fill here
