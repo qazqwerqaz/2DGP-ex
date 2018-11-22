@@ -130,6 +130,7 @@ class Boy:
 
         self.eat_sound = load_wav('pickup.wav')
         self.eat_sound.set_volume(32)
+        self.count = 0
 
     def get_bb(self):
         return self.x - self.w - 100, self.y - self.h- 100, self.x - self.w + 100, self.y - self.h+ 100
@@ -137,6 +138,7 @@ class Boy:
     def eat(self, ball):
         # fill here
         self.eat_sound.play()
+        self.count += 1
         pass
 
     def set_background(self, bg):
@@ -161,7 +163,7 @@ class Boy:
         self.w = self.bg.window_left
         self.h = self.bg.window_bottom
         self.cur_state.draw(self)
-        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
+        self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(%5d, %5d, %2d)' % (self.x, self.y, self.count), (255, 255, 0))
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):

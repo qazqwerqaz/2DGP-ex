@@ -80,7 +80,7 @@ def handle_events():
             game_world.remove_object(ball)
 
     for a in balls:
-        a.set_background(boy)
+        a.set_background(boy, background)
 
 def update():
     for game_object in game_world.all_objects():

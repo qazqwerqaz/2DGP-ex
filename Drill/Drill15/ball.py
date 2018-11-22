@@ -16,16 +16,17 @@ class Ball:
     def get_bb(self):
         return self.x - self.w - 10, self.y - self.h - 10, self.x - self.w + 10, self.y - self.h + 10
 
-    def set_background(self, bg):
+    def set_background(self, bg, back):
+        self.bhh = back;
         self.bg = bg
         self.w = self.bg.x
         self.h = self.bg.y
 
     def draw(self):
-        self.image.draw(self.x - self.w,self.y - self.h)
+        self.image.draw(self.x - self.w, self.y - self.h)
         draw_rectangle(*self.get_bb())
 
 
     def update(self):
-        self.y -= self.fall_speed * game_framework.frame_time
+        pass
 
