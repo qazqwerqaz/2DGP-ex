@@ -49,6 +49,7 @@ def enter():
     game_world.add_objects(balls, 1)
 
 
+
 def exit():
     game_world.clear()
 
@@ -61,6 +62,7 @@ def resume():
 
 
 def handle_events():
+    global boy
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -76,6 +78,9 @@ def handle_events():
             # fill here
             boy.eat(ball)
             game_world.remove_object(ball)
+
+    for a in balls:
+        a.set_background(boy)
 
 def update():
     for game_object in game_world.all_objects():

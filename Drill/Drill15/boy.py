@@ -125,14 +125,26 @@ class Boy:
         self.cur_state = WalkingState
         self.cur_state.enter(self, None)
 
-    def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+        self.w = 0
+        self.h = 0
 
+        self.eat_sound = load_wav('pickup.wav')
+        self.eat_sound.set_volume(32)
+
+    def get_bb(self):
+        return self.x - self.w - 100, self.y - self.h- 100, self.x - self.w + 100, self.y - self.h+ 100
+
+    def eat(self, ball):
+        # fill here
+        self.eat_sound.play()
+        pass
 
     def set_background(self, bg):
         self.bg = bg
         self.x = self.bg.w / 2
         self.y = self.bg.h / 2
+
+
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -146,8 +158,11 @@ class Boy:
             self.cur_state.enter(self, event)
 
     def draw(self):
+        self.w = self.bg.window_left
+        self.h = self.bg.window_bottom
         self.cur_state.draw(self)
         self.font.draw(self.x - self.bg.window_left - 60, self.y - self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
+        draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
