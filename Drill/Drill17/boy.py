@@ -131,11 +131,13 @@ class Boy:
 
     def __getstate__(self):
         # fill here
-        pass
-
+        state = {'x': self.x, 'y': self.y, 'dir': self.dir, 'cur_state': self.cur_state}
+        return state
 
     def __setstate__(self, state):
         # fill here
+        self.__init__()
+        self.__dict__.update(state)
         pass
 
     def get_bb(self):
